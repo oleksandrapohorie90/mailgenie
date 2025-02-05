@@ -1,0 +1,128 @@
+// datasource and generator
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Models
+model User {
+  id        String   @id @default(uuid())
+  fullname  String
+  clerkId   String
+  type      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  stripeId  String?
+
+  // Relations
+  billings  Billings[]
+  campaigns Campaign[]
+  domains   Domain[]
+}
+
+model Billings {
+  id       String @id @default(uuid())
+  plan     String
+  credits  Int
+  userId   String
+  user     User   @relation(fields: [userId], references: [id])
+}
+
+model Campaign {
+  id         String   @id @default(uuid())
+  name       String
+  customers  String[]
+  userId     String
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
+
+  // Relations
+  domains Domain[]
+}
+
+model Domain {
+  id          String   @id @default(uuid())
+  name        String
+  icon        String
+  userId      String
+  campaignId  String
+  user        User     @relation(fields: [userId], references: [id])
+  campaign    Campaign @relation(fields: [campaignId], references: [id])
+
+  // Relations
+  chatbots       Chatbot[]
+  filtersQuestions FiltersQuestions[]
+  customers       Customer[]
+  products        Product[]
+  bookings        Bookings[]
+}
+
+model Chatbot {
+  id              String @id @default(uuid())
+  welcomeMessage  String
+  icon            String
+  background      String
+  textColor       String
+  helpdesk        Boolean
+  domainId        String
+  domain          Domain @relation(fields: [domainId], references: [id])
+
+  // Relations
+  chatMessages ChatMessage[]
+}
+
+model FiltersQuestions {
+  id         String @id @default(uuid())
+  question   String
+  answer     String
+  demand     String
+  domainId   String
+  domain     Domain @relation(fields: [domainId], references: [id])
+}
+
+model Customer {
+  id        String @id @default(uuid())
+  email     String
+  demand    String
+  domainId  String
+  domain    Domain @relation(fields: [domainId], references: [id])
+
+  // Relations
+  bookings Bookings[]
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  price       Int
+  image       String
+  createdAt   DateTime @default(now())
+  domainId    String
+  domain      Domain @relation(fields: [domainId], references: [id])
+}
+
+model Bookings {
+  id        String   @id @default(uuid())
+  date      DateTime
+  email     String
+  customerId String
+  domainId  String
+  createdAt DateTime @default(now())
+  domain    Domain @relation(fields: [domainId], references: [id])
+  customer  Customer @relation(fields: [customerId], references: [id])
+}
+
+model ChatMessage {
+  id            String   @id @default(uuid())
+  message       String
+  role          String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  chatRoomId    String
+  seen          Boolean
+  chatRoom      Chatbot  @relation(fields: [chatRoomId], references: [id])
+}
