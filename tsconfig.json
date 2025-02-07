@@ -23,6 +23,6 @@
     },
     "types": ["@clerk/nextjs"]  // <-- Add this line here
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/layout.tsx2"],
   "exclude": ["node_modules"]
 }
