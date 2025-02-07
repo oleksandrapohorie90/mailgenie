@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.11.0",
     "@prisma/client": "^6.3.1",
     "class-variance-authority": "^0.7.1",
     "classnames": "^2.5.1",
@@ -23,12 +22,15 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@clerk/nextjs": "^6.11.1",
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "15.1.6",
+    "@typescript-eslint/eslint-plugin": "^8.23.0",
+    "@typescript-eslint/parser": "^8.23.0",
+    "eslint": "^9.19.0",
+    "eslint-config-next": "^15.1.6",
     "postcss": "^8",
     "prisma": "^6.3.1",
     "shadcn-ui": "^0.9.4",
