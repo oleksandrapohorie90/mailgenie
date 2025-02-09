@@ -1,5 +1,9 @@
 import { ClerkProvider } from "@clerk/nextjs";
-import "./globals.css";
+
+export const metadata = {
+  title: "My App",
+  description: "An example application",
+};
 
 export default function RootLayout({
   children,
@@ -14,6 +18,7 @@ export default function RootLayout({
     </ClerkProvider>
   );
 }
+
   
   // This will ensure that the ClerkProvider is available to all pages in your Next.js app. 
   // And ensures that Clerk's authentication context is available throughout your app.
