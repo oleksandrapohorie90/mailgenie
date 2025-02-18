@@ -34,3 +34,11 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+1. Webhook is a url that works when you do a request to it, we have in next.js and url is by folders, we have url on auth/webhook and everything inside, and in this file we have logic. when a user sends a request to this webhook, we have to create users in DB, for that we open local host on ngrok to do these requests;
+
+2. we have to push local url on the ngrok, bc we cant do requests on local url, but ngrok allows to open url live where we can do requests
+
+3. when we have requests on ngrok url, we add the web hook to webhooks > endpoints > URL in dashboard.clerk.com , that is our local host..free-app/api/auth/webhook but in live and the logic for how to create a User is in route.ts
+
+4. how is webhook set up, its set up on the event user/created, so when the user registers it triggers the webhook in the endpoints > URL, then this webhook will create a user in DB, check if user appeares in neon.db
