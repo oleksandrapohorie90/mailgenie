@@ -48,3 +48,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 6. dashboard - has curly brackets bc requests wont be accepted here, but auth, api folders(endpoints)will have them, in next.js folders are built by endpoints, thay are all chained
 but square brackets are bc clerk has this syntax or endpoint schema and will have some domain(id) that it will have
+
+What is the Server Client ? How requests work, back end front end ?
+
+If we need to change smth in schema we should do migrations!
