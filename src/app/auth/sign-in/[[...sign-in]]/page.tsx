@@ -1,3 +1,31 @@
+// was working can be used
+// "use client";
+
+// import { useEffect } from "react";
+// import { useAuth } from "@clerk/nextjs";
+// import { useRouter } from "next/navigation";
+// import { SignIn } from "@clerk/nextjs";
+
+// export default function SignInPage() {
+//   const { isSignedIn, isLoaded } = useAuth();
+
+//   const router = useRouter();
+
+//   useEffect(() => {
+
+//     if (isLoaded && isSignedIn) {
+//       router.replace("/dashboard"); // Use `replace` to prevent back navigation
+//     }
+//   }, [isSignedIn, isLoaded, router]);
+
+//   if (!isLoaded) return <p>Loading...</p>; // Prevent flickering
+
+//   if (isSignedIn) return null; // Prevent SignIn component from rendering
+
+//   return <SignIn afterSignInUrl="/dashboard" />;
+// }
+
+
 "use client";
 
 import { useEffect } from "react";
@@ -7,35 +35,21 @@ import { SignIn } from "@clerk/nextjs";
 
 export default function SignInPage() {
   const { isSignedIn, isLoaded } = useAuth();
-
   const router = useRouter();
 
   useEffect(() => {
-
     if (isLoaded && isSignedIn) {
-      router.replace("/dashboard"); // Use `replace` to prevent back navigation
+      router.replace("/dashboard"); // Redirect after sign-in
     }
   }, [isSignedIn, isLoaded, router]);
 
   if (!isLoaded) return <p>Loading...</p>; // Prevent flickering
 
-  if (isSignedIn) return null; // Prevent SignIn component from rendering
+  if (isSignedIn) return null; // Prevent re-rendering
 
-  return <SignIn afterSignInUrl="/dashboard" />;
+  return <SignIn fallbackRedirectUrl="/dashboard" />;
 }
 
-
-//  "use client";
-
-// import { SignIn } from "@clerk/nextjs";
-
-// export default function SignInPage() {
-//   return (
-//     <div className="flex min-h-screen items-center justify-center bg-gray-100">
-//       <SignIn />
-//     </div>
-//   );
-// }
 
 //Bakyt's gives blank page
 // "use client";

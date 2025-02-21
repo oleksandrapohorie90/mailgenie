@@ -1,15 +1,26 @@
-import React from 'react';
-import Sidebar from '../components/sidebar';
-
 export default function DashboardPage() {
-    console.log("here aika")
   return (
     <div>
-      {/* <h1>Dashboard</h1> */}
-      <Sidebar/>
+      <h1 className="text-2xl font-bold">Welcome to the Dashboard</h1>
     </div>
   );
 }
+
+
+
+// was this and working
+// import React from 'react';
+// import Sidebar from '../components/sidebar';
+
+// export default function DashboardPage() {
+//     console.log("here aika")
+//   return (
+//     <div>
+//       {/* <h1>Dashboard</h1> */}
+//       <Sidebar/>
+//     </div>
+//   );
+// }
 
 
 // // Bakyt's
