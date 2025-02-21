@@ -52,3 +52,22 @@ but square brackets are bc clerk has this syntax or endpoint schema and will hav
 What is the Server Client ? How requests work, back end front end ?
 
 If we need to change smth in schema we should do migrations!
+
+do we need to change npm run dev every time
+
+//TO DELETE CACHED next.js folder
+rm -rf .next
+
+//TO KILL ALL Running processes
+pkill -f node
+
+//Run this 
+export NEXT_PUBLIC_APP_URL=http://localhost:3000 && npm run dev
+(Replace 3000 with whatever port your app starts on.)
+
+*set of commands*
+
+pkill -f node
+rm -rf .next
+npm run dev
+
