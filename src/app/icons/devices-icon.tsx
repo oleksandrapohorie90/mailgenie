@@ -58,3 +58,23 @@ const DevicesIcon = (props: Props) => {
 }
 
 export default DevicesIcon
+
+//fixes the error in the sidebar
+// const DevicesIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
+//   <svg
+//     xmlns="http://www.w3.org/2000/svg"
+//     fill="none"
+//     viewBox="0 0 24 24"
+//     stroke="currentColor"
+//     className={className}
+//   >
+//     <path
+//       strokeLinecap="round"
+//       strokeLinejoin="round"
+//       strokeWidth={2}
+//       d="M9.75 3h4.5a1.5 1.5 0 011.5 1.5v15a1.5 1.5 0 01-1.5 1.5h-4.5A1.5 1.5 0 018.25 19.5v-15A1.5 1.5 0 019.75 3zM4.5 9h15M4.5 9h15M6 21h12"
+//     />
+//   </svg>
+// );
+
+// export default DevicesIcon;
