@@ -14,7 +14,7 @@
 // }
 
 //Arslan's code - What is ChatProvider? where should it be defined?
-import Sidebar from "../components/sidebar";
+import Sidebar from "../../components/sidebar";
 
 type Props = {
   children: React.ReactNode;
