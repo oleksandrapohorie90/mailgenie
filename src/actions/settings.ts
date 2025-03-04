@@ -3,6 +3,14 @@
 import { auth } from "@clerk/nextjs/server"; //why auth here ?
 import { prisma } from "@/lib/prisma"; 
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
+
+export const AddDomainSchema = z.object({
+  domain: z.string().min(3, "Domain name is too short").max(255, "Domain name is too long"),
+  icon: z.any(), // Accepts file uploads
+});
+
+export type AddDomainInput = z.infer<typeof AddDomainSchema>;
 
 export const onIntegrateDomain = async (
   campaignId: string,
