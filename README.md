@@ -71,3 +71,47 @@ pkill -f node
 rm -rf .next
 npm run dev
 
+=====================================
+FOR npm
+
+ npx prisma migrate dev
+
+ ngrok http 3001
+
+ bun dev
+
+ npx prisma migrate dev --name what_you_changed
+ npx prisma migrate dev --name add_new_field_to_user
+
+ npx prisma studio     
+ npx prisma generate      
+ npx prisma migrate reset  
+ npx prisma migrate status  
+
+
+ FOR bun
+
+ # Development
+bun dev                  # Start development server
+bun run lint            # Run ESLint
+bun run lint:fix        # Fix ESLint issues automatically
+bun run format          # Format code with Prettier
+
+# Database
+bun run db:push         # Push schema changes to database
+bun run db:studio       # Open Prisma Studio
+
+# TypeScript
+bun run typecheck       # Type check your code
+
+# Maintenance
+bun run clean          # Clean build files and node_modules
+
+# Adding a new package
+bun add react-query
+
+# Adding a dev dependency
+bun add -d @types/react
+
+# Removing a package
+bun remove lodash

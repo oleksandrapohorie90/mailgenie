@@ -2,17 +2,21 @@
 
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { useForm, FieldValues } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AddDomainSchema } from "@/schemas/settings.schema"; 
-import { UploadClient } from "@uploadcare/upload-client";
+import { AddDomainSchema, AddDomainInput } from "@/schemas/settings.schema";
 import { onIntegrateDomain } from "@/actions/settings";
 import { useToast } from "@/hooks/use-toast";
 
-//this is where your imagine will upload
-const upload = new UploadClient({
-  publicKey: process.env.NEXT_PUBLIC_UPLOAD_CARE_PUBLIC_KEY as string,
-});
+type DomainResponse = {
+  status: number;
+  message: string;
+  domain?: {
+    id: string;
+    name: string;
+    icon: string;
+  };
+};
 
 export const useDomain = () => {
   const {
@@ -20,7 +24,8 @@ export const useDomain = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<{ name: string; icon: string; campaignId?: string }>({
+    setValue,
+  } = useForm<AddDomainInput>({
     resolver: zodResolver(AddDomainSchema),
   });
 
@@ -34,44 +39,126 @@ export const useDomain = () => {
     setIsDomain(pathname.split("/").pop());
   }, [pathname]);
 
-  const onAddDomain = handleSubmit(async (values: FieldValues) => {
+  const onSubmit = async (data: AddDomainInput): Promise<DomainResponse> => {
+    const response = await onIntegrateDomain(
+      data.campaignId || "",
+      data.name,
+      data.icon
+    );
+
+    if (response.status === 200) {
+      reset();
+      router.refresh();
+    }
+
+    return response as DomainResponse;
+  };
+
+  const onAddDomain = async (e?: React.FormEvent): Promise<DomainResponse> => {
+    if (e) {
+      e.preventDefault();
+    }
     setLoading(true);
 
     try {
-      // Ensure an icon is provided
-      if (!values.icon || values.icon.length === 0) {
-        toast({ title: "Error", description: "Please upload an icon" });
-        setLoading(false);
-        return;
-      }
+      let response: DomainResponse = {
+        status: 500,
+        message: "Something went wrong",
+      };
 
-      // Upload the icon
-      const uploaded = await upload.uploadFile(values.icon[0]); // Assuming `values.icon` is a FileList
+      await handleSubmit(async (data) => {
+        response = await onSubmit(data);
+      })();
 
-      // Arslan has this function living in settings/index.rs ?
-      const domain = await onIntegrateDomain(values.domain, uploaded.uuid, values.icon[0].name);
-
-      if (domain) {
-        toast({
-          title: domain.status === 200 ? "Success" : "Error",
-          description: domain.message,
-        });
-
-        if (domain.status === 200) {
-          reset();
-          router.refresh();
-        }
-      }
+      return response;
     } catch (error) {
-      console.error("Error adding domain:", error);
-      toast({ title: "Error", description: "Something went wrong" });
+      console.error(error);
+      return {
+        status: 500,
+        message: "Something went wrong",
+      };
     } finally {
       setLoading(false);
     }
-  });
+  };
 
-  return { register, onAddDomain, errors, loading, isDomain };
+  return { register, onAddDomain, errors, loading, isDomain, setValue, reset };
 };
+
+// "use client";
+
+// import { useState, useEffect } from "react";
+// import { usePathname, useRouter } from "next/navigation";
+// import { useForm, FieldValues } from "react-hook-form";
+// import { zodResolver } from "@hookform/resolvers/zod";
+// import { AddDomainSchema } from "@/schemas/settings.schema"; 
+// import { UploadClient } from "@uploadcare/upload-client";
+// import { onIntegrateDomain } from "@/actions/settings";
+// import { useToast } from "@/hooks/use-toast";
+
+// //this is where your imagine will upload
+// const upload = new UploadClient({
+//   publicKey: process.env.NEXT_PUBLIC_UPLOAD_CARE_PUBLIC_KEY as string,
+// });
+
+// export const useDomain = () => {
+//   const {
+//     register,
+//     handleSubmit,
+//     formState: { errors },
+//     reset,
+//   } = useForm<{ name: string; icon: string; campaignId?: string }>({
+//     resolver: zodResolver(AddDomainSchema),
+//   });
+
+//   const pathname = usePathname();
+//   const { toast } = useToast();
+//   const [loading, setLoading] = useState<boolean>(false);
+//   const [isDomain, setIsDomain] = useState<string | undefined>(undefined);
+//   const router = useRouter();
+
+//   useEffect(() => {
+//     setIsDomain(pathname.split("/").pop());
+//   }, [pathname]);
+
+//   const onAddDomain = handleSubmit(async (values: FieldValues) => {
+//     setLoading(true);
+
+//     try {
+//       // Ensure an icon is provided
+//       if (!values.icon || values.icon.length === 0) {
+//         toast({ title: "Error", description: "Please upload an icon" });
+//         setLoading(false);
+//         return;
+//       }
+
+//       // Upload the icon
+//       const uploaded = await upload.uploadFile(values.icon[0]); // Assuming `values.icon` is a FileList
+
+//       // Arslan has this function living in settings/index.rs ?
+//       const domain = await onIntegrateDomain(values.domain, uploaded.uuid, values.icon[0].name);
+
+//       if (domain) {
+//         toast({
+//           title: domain.status === 200 ? "Success" : "Error",
+//           description: domain.message,
+//         });
+
+//         if (domain.status === 200) {
+//           reset();
+//           router.refresh();
+//         }
+//       }
+//     } catch (error) {
+//       console.error("Error adding domain:", error);
+//       toast({ title: "Error", description: "Something went wrong" });
+//     } finally {
+//       setLoading(false);
+//     }
+//   });
+
+//   return { register, onAddDomain, errors, loading, isDomain };
+// };
 
 // import { useState, useEffect } from "react";
 // import { usePathname, useRouter } from "next/navigation";

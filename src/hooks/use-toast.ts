@@ -20,7 +20,7 @@
 //     return { toast: showToast };
 //   };
 
-  import { toast } from "sonner";
+import { toast } from "sonner";
 
 export const useToast = () => {
   return {
