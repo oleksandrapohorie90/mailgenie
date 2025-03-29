@@ -61,19 +61,34 @@ model Domain {
   bookings        Bookings[]
 }
 
+// model Chatbot {
+//   id              String @id @default(uuid())
+//   welcomeMessage  String
+//   icon            String
+//   background      String
+//   textColor       String
+//   helpdesk        Boolean
+//   domainId        String
+//   domain          Domain @relation(fields: [domainId], references: [id])
+
+//   // Relations
+//   chatMessages ChatMessage[]
+// }
+
 model Chatbot {
-  id              String @id @default(uuid())
+  id              String   @id @default(uuid())
   welcomeMessage  String
   icon            String
   background      String
   textColor       String
   helpdesk        Boolean
   domainId        String
-  domain          Domain @relation(fields: [domainId], references: [id])
-
-  // Relations
-  chatMessages ChatMessage[]
+  createdAt       DateTime @default(now())
+  isRealtime      Boolean  @default(false) // ✅ Add this field
+  domain          Domain   @relation(fields: [domainId], references: [id])
+  chatMessages    ChatMessage[]
 }
+
 
 model FiltersQuestions {
   id         String @id @default(uuid())
