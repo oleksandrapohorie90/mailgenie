@@ -246,7 +246,7 @@ const Sidebar = ({ domains }: SidebarProps) => {
       {/* Sign Out Button */}
       <div className="absolute bottom-4 left-4">
         <Link
-          href="/sign-out"
+          href="/auth/sign-in"
           className={cn(
             "flex items-center rounded-lg px-3 py-2 text-gray-900 transition-all hover:bg-gray-100",
             collapsed && "justify-center"

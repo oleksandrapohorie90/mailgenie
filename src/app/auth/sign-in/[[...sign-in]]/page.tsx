@@ -47,7 +47,7 @@ export default function SignInPage() {
 
   if (isSignedIn) return null; // Prevent re-rendering
 
-  return <SignIn fallbackRedirectUrl="/dashboard" />;
+  return <SignIn fallbackRedirectUrl="/dashboard" routing="hash" />;
 }
 
 

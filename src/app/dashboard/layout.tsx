@@ -74,10 +74,11 @@
 //   );
 // }
 
-
+//was working
 import { currentUser } from "@clerk/nextjs/server";
-import {prisma}  from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import Sidebar from "@/components/sidebar";
+import { ChatProvider } from "@/context/use-chat-context"; // ✅ import this
 
 export default async function DashboardLayout({
   children,
@@ -85,6 +86,7 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const user = await currentUser();
+
   const domains = user
     ? await prisma.domain.findMany({
         where: {
@@ -101,9 +103,44 @@ export default async function DashboardLayout({
     : [];
 
   return (
-    <div className="flex min-h-screen">
-      <Sidebar domains={domains} />
-      <main className="flex-1 overflow-y-auto">{children}</main>
-    </div>
+    <ChatProvider> {/* ✅ Wrap the entire layout with context provider */}
+      <div className="flex min-h-screen">
+        <Sidebar domains={domains} />
+        <main className="flex-1 overflow-y-auto">{children}</main>
+      </div>
+    </ChatProvider>
   );
 }
+
+// import { currentUser } from "@clerk/nextjs/server";
+// import {prisma}  from "@/lib/prisma";
+// import Sidebar from "@/components/sidebar";
+
+// export default async function DashboardLayout({
+//   children,
+// }: {
+//   children: React.ReactNode;
+// }) {
+//   const user = await currentUser();
+//   const domains = user
+//     ? await prisma.domain.findMany({
+//         where: {
+//           user: {
+//             clerkId: user.id,
+//           },
+//         },
+//         select: {
+//           id: true,
+//           name: true,
+//           icon: true,
+//         },
+//       })
+//     : [];
+
+//   return (
+//     <div className="flex min-h-screen">
+//       <Sidebar domains={domains} />
+//       <main className="flex-1 overflow-y-auto">{children}</main>
+//     </div>
+//   );
+// }
